@@ -4,7 +4,6 @@ import * as BooksAPI from './BooksAPI'
 class BookFromQuery extends React.Component {
   state = {
     shelf: 'none',
-    shelfOrig: 'none'
   };
 
   componentDidMount = () => {
@@ -13,16 +12,13 @@ class BookFromQuery extends React.Component {
       this.setState( 
         { 
           shelf: shelvedBook.shelf, 
-          shelfOrig: shelvedBook.shelf
         } 
       );
     }
   }
 
   shelveNewBook = (event) => {
-    this.setState( {shelf: event.target.value} );
-
-    if (this.state.shelfOrig === "none") {
+    if (this.state.shelf === "none") {
       const bookNew = {...this.props.book};
       bookNew.shelf = event.target.value;
       //console.log('BookFromQuery: adding ' + bookNew.title + ' to ' + bookNew.shelf + ', typeof bookNew = ' + typeof bookNew);
@@ -33,6 +29,7 @@ class BookFromQuery extends React.Component {
       this.props.moveToShelf(this.props.book.id, event.target.value);
     }
 
+    this.setState( {shelf: event.target.value} );
     BooksAPI.update({ id: this.props.book.id }, event.target.value);
   };
 
